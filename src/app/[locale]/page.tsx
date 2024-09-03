@@ -1,13 +1,19 @@
-import Image from "next/image";
+import TranslationsProvider from "../../components/translation-provider";
 import initTranslations from "../i18n";
+import HomePageComponent from "../../components/home-page-component";
+import LanguageChanger from "@/components/language-changer";
+
+
+const namespaces = ['common']
+
 export default async function Home({ params: { locale } }: any) {
-  const { t } = await initTranslations(locale,['common']);
+  const { t , resources } = await initTranslations(locale, namespaces);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <p>
-        welcome
-        {t("welcome")}
-      </p>
+      <TranslationsProvider resources={resources} locale={locale} namespaces={namespaces}>
+        <HomePageComponent/>
+        <LanguageChanger/>
+      </TranslationsProvider>
     </main>
   );
 }
